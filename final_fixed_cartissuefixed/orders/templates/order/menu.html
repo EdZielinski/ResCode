@@ -1,0 +1,36 @@
+{% extends "order/layout.html" %}
+{% load static %}
+{% block meta_specific %}
+    <title>Menu</title>
+{% endblock %}
+{% block content %}		
+	<ul class="menu text-center pt-4">
+	{% for food_name in menu.keys %}         
+		<li data-food="{{food_name}}" class="btn btn-dark"><a class="text-light" href="#{{food_name}}">{{ food_name }}</a></li>
+	{% endfor %}
+	</ul>
+	{% for food_name, options_lists in menu.items %}	
+		<div class="menu-table" data-food="{{food}}">			
+			<h4 id="{{ food_name }}" class="text-center pt-4">{{ food_name }}</h4>
+			<table class="table table-hover table-light pb-4">
+				<thead class="thead-light">
+					<tr>
+						<th class="text-center">Option</th>
+						{% for size in options_lists.sizes %}		
+							<th class="text-center">{{ size }}</th>
+						{% endfor %}
+					</tr>	
+				</thead>
+				<tbody>
+					{% for list in options_lists.types %}
+					<tr>
+						{% for food_line in list %}
+							<td class="text-center">{{food_line}}</td>
+						{% endfor %}	
+					</tr>	
+					{% endfor %}	
+				</tbody>	
+			</table>
+		</div>
+	{% endfor %}
+{% endblock %}

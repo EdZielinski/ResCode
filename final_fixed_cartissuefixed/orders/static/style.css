@@ -1,0 +1,78 @@
+body {
+	background: #efefef!important;
+	overflow-x: hidden;
+}
+
+.center {
+	margin: 0 auto;
+}
+
+.logo-right {
+    float: right;
+}
+
+.logo-left {
+    float: left;
+    width: 150px;
+}
+
+.menu {
+    list-style: none;
+}
+
+.menu li {
+	display: inline-block;
+}
+
+.btn.active, .btn-primary {
+	color: #fff !important;
+    background-color: #343a40 !important;
+    border-color: #343a40 !important;
+}
+
+.custom-control-input:checked~.custom-control-label::before {
+    background-color: #343a40;
+}
+
+.table {
+	width: 550px;
+	margin: 0 auto;
+}
+
+.full-table {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.fixed-div {
+    padding: 20px;
+    width: 300px;
+    border: 1px solid #ccc;
+    background: #fff;   
+}
+
+.size-radio {
+	display: none;
+}
+
+.Standard, .food-table[data-food=Toppings] {
+	display: none;
+}
+
+.toppings {
+	width: 250px;
+}
+
+.order_details {
+	padding-left: 16px;
+}
+
+.total_line {
+	font-weight: bold;
+}
+
+
+.disabled {
+	opacity: 0.2;
+	pointer-events: none;
+}

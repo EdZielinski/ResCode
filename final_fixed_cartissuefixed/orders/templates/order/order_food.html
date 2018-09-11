@@ -1,0 +1,119 @@
+{% extends "order/layout.html" %}
+{% load static %}
+{% block meta_specific %}
+    <title>Order</title>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-6 pb-4 box-center menu-half">
+		<div class="text-center">
+			<div class="menu btn-group btn-group-toggle pt-4">				
+				{% for food in menu.keys %}  
+					{% if food != 'Toppings' %}  
+						{%if forloop.counter == 1%}   
+							<label class="menu-btn btn btn-light active">  
+							<input type="radio" name="foods" id="food_{{forloop.counter}}" value="{{food}}" autocomplete="off" checked> {{food}}	
+							</label>					
+						{% else %}
+							<label class="menu-btn btn btn-light">  
+							<input type="radio" name="foods" id="food_{{forloop.counter}}" value="{{food}}" autocomplete="off"> {{food}}	
+							</label>
+						{% endif %}					
+					{% endif %}
+				{% endfor %}
+			</div>	
+		</div>
+
+		{% for food, options in menu.items %}
+			<div data-food="{{ food }}" class="food-table {% if forloop.counter != 1%}d-none{%else%} active{%endif%}">
+				<h4 id="{{ food }}" class="text-center pt-4">{{ food }}</h4>
+				<table class="table table-hover table-light pb-4">
+					<thead class="thead-light">
+						<tr>
+							<th>Option</th>							
+							<th>						
+							{% for option, size in options.items %}
+								{%if forloop.counter == 1 %}
+									{% for size_option, price in size.items %} 
+										<span class="{{size_option}}">{{ size_option }}</span>  &nbsp;&nbsp;
+									{% endfor %}		
+								{% endif %}	
+							{% endfor %}
+							</th>
+							<th class="text-center">Action</th>
+						</tr>	
+					</thead>
+					<tbody>
+						{% for option, size in options.items %}
+							<tr class="option-row" data-option="{{option}}">
+								<td>{{option}}</td>
+								<td class="btn-group btn-group-toggle" data-toggle="buttons">
+								{% for size_option, price in size.items %}
+									<label class="btn btn-light price-label-btn" data-size="{{size_option}}" data-food="{{food}}" data-option="{{option}}">
+										<input disabled class="size-radio" type="radio" value="{{size_option}}" data-food="{{food}}" data-option="{{option}}" autocomplete="off"">{{price}}
+									</label>	
+								{% endfor %}	
+								</td>
+								<td class="text-center">
+									<button data-food="{{food}}" data-option="{{option}}" class="add btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off">Order +</button>
+								</td>								
+							</tr>
+						{% endfor %}	
+					</tbody>
+				</table>
+			</div>			
+		{% endfor %}
+	</div>
+	<div class="col-lg-4 col-md-4 col-sm-12 mt-4 pb-4">
+		<div class="fixed-div">
+			{% for pizza in pizza_with_toppings %}
+				{% for i in toppings_list %}
+			        <div data-food="{{pizza}}" class="topping{{forloop.counter}} form-group d-none">
+			        	<h6 class="pt-2 toppings-heading">
+			        		Choose {{forloop.counter}}{% if forloop.counter == 1 %}<sup>st</sup> {% elif forloop.counter == 2 %}<sup>nd</sup> {% else %}<sup>rd</sup>{% endif %}	
+			        	Topping</h6>
+			        	<select name="toppings{{forloop.counter}}" id="toppings{{forloop.counter}}" class="form-control toppings">
+			        		<option value="">Choose a topping</option>
+				        	{% for food, options in menu.items %}
+				        		{% if food == 'Toppings' %}
+					        		{% for option, size in options.items %}
+					        			<option value="{{option}}">{{option}}</option>
+					        		{% endfor %}
+					        	{% endif %}	
+				        	{% endfor %}	
+			    		</select>
+			        </div>   
+		        {% endfor %} 
+		        <div data-food="{{pizza}}" class="action d-none">
+		        	<button data-food="{{pizza}}" class="btn btn-primary done">Order</button>
+		        	<button data-food="{{pizza}}" class="btn btn-light cancel">Cancel</button>
+		        </div>	                  
+		    {% endfor %} 
+		    <div class="toppings-subs d-none pt-4">
+		    	<h4>Choose Toppings</h4>
+		    	{% for topping in subs_toppings	%}			    	
+		    	<div class="custom-control toppings-subs-checkbox mt-2">
+					<input type="checkbox" name="toppings-subs[]" class="custom-control-input" value="{{topping}}" id="toppings-subs-checkbox{{forloop.counter}}">
+					<label class="custom-control-label" for="toppings-subs-checkbox{{forloop.counter}}">{{topping}} - Price: $0.5</label>
+				</div>
+				{% endfor %}
+		        <div data-food="Subs" class="subs-action pt-4 d-none">
+		        	<button data-food="Subs" class="btn btn-primary subs-done">Order</button>
+		        	<button data-food="Subs" class="btn btn-light subs-cancel">Cancel</button>
+		        </div>								    	
+		    </div>
+			<div class="added">
+				<h4 class="pt-4">Current Order</h4>
+				<ol class="order_details">
+				</ol>
+				<div class="total_line">Total: $<span class="total">0</span></div>
+				<a href="/cart" role="button" class="btn btn-primary cart-button pt-2 pb-2 mt-4">Cart ></a>
+			</div>
+		</div>	
+    </div>
+</div>
+{% endblock %}
+
+{% block custom_scripts %}
+	<script src="{% static 'order.js' %}"></script>
+{% endblock %}

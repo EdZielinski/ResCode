@@ -1,0 +1,42 @@
+{% extends "order/layout.html" %}
+{% load static %}
+{% block meta_specific %}
+    <title>Cart</title>
+{% endblock %}
+{% block content %}		
+	<div class="container pt-4">
+		{% if no_items_found %}
+			<h2 class="text-center">No items in cart</h2>
+		{% else %}
+			<table class="table full-table">
+			<thead class="thead-light">
+				<tr>
+					<th>#</th>
+					<th>Food</th>
+					<th>Price</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for food_line in food_lines %}			
+				<tr data-line="{{food_line.food_line}}" data-price="{{food_line.price}}">
+					<td><strong>{{forloop.counter}}</strong></td>
+					<td>{{food_line.food_line}}</td>
+					<td>${{food_line.price}}</td>
+					<td><button data-line="{{food_line.food_line}}" data-price="{{food_line.price}}" class="btn btn-danger delete">X</button></td>
+				</tr>
+			{% endfor %}
+				<tr>
+					<td></td>
+					<td></td>
+					<td><strong>Total: $<span class="total">{{total}}</span></strong></td>
+					<td><a href="/checkout" role="button" class="btn btn-primary">checkout</a></td>
+				</tr>
+			</tbody>
+			</table>
+		{% endif %}	
+	</div>	
+{% endblock %}
+{% block custom_scripts %}
+	<script src="{% static 'cart.js' %}"></script>
+{% endblock %}

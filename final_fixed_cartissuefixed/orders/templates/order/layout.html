@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block meta %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% endblock %}
+    {% block meta_specific %}
+    {% endblock %}
+</head>
+<body>
+{% block nav %}
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+
+  <!-- Links -->
+  <ul class="navbar-nav mx-auto order-0">
+    <li class="nav-item">
+      <a class="nav-link" href="/">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/menu">Menu</a>
+    </li>                    
+    {% if not user.is_authenticated %}    
+    <li class="nav-item">
+      <a class="nav-link" href="/login">Login</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/register">Register</a>
+    </li>
+    {% else %} 
+        <li class="nav-item">
+          <a class="nav-link" href="/order">Order</a>
+        </li>      
+        <li class="nav-item">
+          <a class="nav-link" href="/cart">Cart</a>
+        </li>  
+        <li class="nav-item">
+          <a class="nav-link" href="/orders">My Orders</a>
+        </li>   
+        {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link" href="/all-orders">All orders</a>
+          </li>
+        {% endif %}     
+        <li class="nav-item">
+          <a class="nav-link" href="/profile">Profile</a>
+        </li>                        
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>                     
+    {% endif %}
+  </ul>  
+</nav>
+<div class="container">
+  <div class="row center border-bottom border-top pt-4 pb-4">  
+    <div class="col-md-2 col-lg-3 col-sm-12 col-xs-12">
+      <img class="logo-left" src="{% static 'img/building3.jpg' %}">
+    </div>
+    <div class="col-md-8 col-lg-6 col-sm-12 col-xs-12">
+      <h1 class="text-center mb-2">Pinocchio's Pizza & Subs</h1>
+      <h6 class="mb-2 pl-4 ml-4">Address: 74 Winthrop Street, Harvard Square</h6>
+      <h6 class="mb-2 pl-4 ml-4">Contact: 617-876-4897</h6>
+      <h6 class="mb-2 pl-4 ml-4">Email: pinocchiospizza1@gmail.com</h6>  
+    </div>   
+    <div class="col-md-2 col-lg-3 col-sm-12 col-xs-12">
+      <img class="logo-right" src="{% static 'img/pinocchio_72.gif' %}">    
+    </div>
+  </div>
+</div>  
+{% endblock %}
+{% block content %}
+{% endblock %}
+{% block footer %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="{% static 'script.js' %}"></script>
+{% endblock %}
+{% block custom_scripts %}
+{% endblock %}
+</body>
+</html>

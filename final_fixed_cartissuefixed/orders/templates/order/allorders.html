@@ -1,0 +1,42 @@
+{% extends "order/layout.html" %}
+{% load static %}
+{% block meta_specific %}
+    <title>All Orders</title>
+{% endblock %}
+{% block content %}		
+	<div class="container pt-4">
+		{% if no_items_found %}
+			<h2 class="text-center">No orders yet</h2>
+		{% else %}
+			<h2 class="text-center pb-4">All Orders</h2>
+			<table class="table full-table">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Details</th>
+					<th>User</th>
+					<th>Time</th>
+					<th>Total</th>
+					<th>Status</th>
+					<th>Action</th>
+					<th>View</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for order in orders %}			
+				<tr>
+					<td><strong>{{forloop.counter}}</strong></td>
+					<td>{{order.full_order_details|linebreaks}}</td>
+					<td>{{order.order.user.username}}</td>
+					<td>{{order.order.order_created_at}}</td>
+					<td>${{order.order.order_total}}</td>
+					<td>{% if order.order.completed %} Completed {% else %}Pending{% endif %}</td>
+					<td>{% if order.order.completed %} - {% else %}<a href="/order-complete/{{order.order.id}}" role="button" class="btn btn-primary">Mark as Complete</a>{% endif %}</td>
+					<td><a href="/order/{{order.order.id}}" role="button" class="btn btn-primary">View Order</a></td>
+				</tr>
+			{% endfor %}
+			</tbody>
+			</table>
+		{% endif %}	
+	</div>	
+{% endblock %}

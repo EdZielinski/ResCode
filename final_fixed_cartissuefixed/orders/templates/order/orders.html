@@ -1,0 +1,38 @@
+{% extends "order/layout.html" %}
+{% load static %}
+{% block meta_specific %}
+    <title>Orders</title>
+{% endblock %}
+{% block content %}		
+	<div class="container pt-4">
+		{% if no_items_found %}
+			<h2 class="text-center">No orders yet</h2>
+		{% else %}
+			<table class="table full-table table-hover table-light pb-4">
+			<thead class="thead-light">
+				<tr>
+					<th>#</th>
+					<th>Food Items</th>										
+					<th>Total</th>
+					<th>Time</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for order in orders %}			
+				<tr>
+					<td><strong>{{forloop.counter}}</strong></td>
+					<td>{{order.full_order_details}}</td>
+					<td>${{order.order.order_total}}</td>
+					<td>{{order.order.order_created_at}}</td>					
+					<td><a href="/order/{{order.order.id}}" role="button" class="btn btn-primary">Order Details</a></td>
+				</tr>
+			{% endfor %}
+			</tbody>
+			</table>
+		{% endif %}	
+		<div class="text-left mt-4">
+			<a href="/order" role="button" class="btn btn-primary pb-2 mt-4">New order</a>
+		</div>
+	</div>	
+{% endblock %}
